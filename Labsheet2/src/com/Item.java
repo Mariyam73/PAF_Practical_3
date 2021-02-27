@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class Item {
 	
-	
+	//Connection Code
 	public Connection connect()
 	{
 		Connection con = null;
@@ -24,6 +24,7 @@ public class Item {
 	}
 	
 	
+	//inserting item
 	public String insertItem(String code, String name, String price, String desc) throws SQLException {
 		
 		String output = "";
@@ -67,7 +68,7 @@ public class Item {
 	
 	
 	
-	
+	//Read Items
 	public String readItems()
 	{
 		String output = "";
@@ -118,11 +119,11 @@ public class Item {
 				+ "<input name='itemDesc' type='hidden' "
 				+ " value=' " + itemDesc + "'>"
 				+ "</form></td>"
-				+ "<td><form method='post' action='deleteItem.jsp'>"
+				+ "<td><form method='post' action='items.jsp'>"
 				+ "<input name='btnRemove' "
 				+ " type='submit' value='Remove'>"
-				+ "<input name='itemCode' type='hidden' "
-				+ " value='" + itemCode + "'>" + "</form></td></tr>";
+				+ "<input name='itemID' type='hidden' "
+				+ " value='" + itemID + "'>" + "</form></td></tr>";
 				}
 				con.close();
 				
@@ -141,7 +142,7 @@ public class Item {
 	
 	
 	
-	
+	//update Item
 	public String updateItem(String code, String name, String price, String desc) throws SQLException {
 		
 		String output = "";
@@ -156,14 +157,14 @@ public class Item {
 			}
 			
 			// create a prepared statement
-			String query = "update item set itemName=?, itemPrice=?, itemDesc=?" + "where itemCode=? ";
+			String query = "update item set itemName=?, itemPrice=?, itemDesc=?" + "where itemCode="+code;
 			
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			
 			// binding values
-			preparedStmt.setString(3, name);
-			preparedStmt.setDouble(4, Double.parseDouble(price));
-			preparedStmt.setString(5, desc);
+			preparedStmt.setString(1, name);
+			preparedStmt.setDouble(2, Double.parseDouble(price));
+			preparedStmt.setString(3, desc);
 			
 			//execute the statement
 			preparedStmt.execute();
@@ -181,18 +182,18 @@ public class Item {
 	}
 	
 	
-	public String deleteItem(String itemID) {
+	//Delete Item
+	public String deleteItem(int itemCode) {
 		
 		String output = "";
 		
 		Connection con = connect();
 		
-		String query = "delete from item " + "where itemID=? ";
+		String query = "delete from item " + "where itemID="+itemCode;
 		
 		try{
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 
-			preparedStmt.setString(2, itemID);
 			preparedStmt.executeUpdate();
 			
 			output = "Deleted Successfully!!";

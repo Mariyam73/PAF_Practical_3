@@ -1,21 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
- <%@page import = "com.Item" %>
- 
+<%@page import = "com.Item" %>
 
- <%-- <%
-	if (request.getParameter("itemCode") != null)
-	{
-		Item itemObj = new Item();
-		String stsMsg = itemObj.updateItem(request.getParameter("itemCode"),
-		request.getParameter("itemName"),
-		request.getParameter("itemPrice"),
-		request.getParameter("itemDesc"));
-		session.setAttribute("statusMsg", stsMsg);
-	}
 
-%>  --%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,13 +16,16 @@
 
 <!-- retrieving the passed parameters to update form -->
 <%
+	String itemNo = request.getParameter("itemID");
 	String itemCode = request.getParameter("itemCode");
 	String itemName =  request.getParameter("itemName");
 	String itemPrice = request.getParameter("itemPrice");
 	String itemDesc = request.getParameter("itemDesc");	
 %>
 
-		<form method="post" action="updateItem.jsp">
+		<%-- Update Form --%>
+		<form method="post" action="UpdateProcess.jsp">
+			<input name="itemNo" type="text" value="<%=itemNo%>" hidden><br>
 			Item code: <input name="itemCode" type="text" value="<%=itemCode%>" readonly><br>
 			Item name: <input name="itemName" type="text" value="<%=itemName%>"><br>
 			Item price: <input name="itemPrice" type="text" value="<%=itemPrice%>"><br>
@@ -41,9 +33,7 @@
 			<input name="btnSubmit" type="submit" value="Update">
 		</form>
 		
-		<%
-			out.print(session.getAttribute("statusMsg"));
-		%>
+		
 		<br><br>
 		<%
 			Item itemObj = new Item();

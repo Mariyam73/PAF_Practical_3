@@ -17,6 +17,16 @@
 	}
 
 %>
+
+<%
+	if (request.getParameter("itemID") != null)
+	{
+		Item itemObj = new Item();
+		String stsMsg = itemObj.deleteItem(Integer.parseInt(request.getParameter("itemID")));
+		session.setAttribute("statusMsg", stsMsg);
+	}
+
+%>
     
 <!DOCTYPE html>
 <html>
@@ -26,6 +36,7 @@
 </head>
 <body>
 
+	<%-- Calling the connection Method --%>
 	<%-- <% 
 		if (request.getParameter("itemCode") != null)
 		{
@@ -37,6 +48,7 @@
 	
 	<h1>Items Management</h1>
 		
+		<%-- Insert Form --%>
 		<form method="post" action="items.jsp">
 			Item code: <input name="itemCode" type="text"><br>
 			Item name: <input name="itemName" type="text"><br>
@@ -49,6 +61,7 @@
 		%>
 		
 		<br><br>
+		<%--Calling Read --%>
 		<%
 			Item itemObj = new Item();
 			out.print(itemObj.readItems());
